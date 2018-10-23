@@ -6,18 +6,7 @@ let width = document.body.clientWidth, height = document.body.clientHeight
 let draw = SVG('main').size(width, height).attr({id: "main_svg"});
 moveController.setStage(draw);
 moveController.enableMove();
-
-//TODO: move this to the movecontroller
-$('#zoomout').on('click', ()=>{
-    zoom_lvl *= 1.1;
-    draw.viewbox(-(width*zoom_lvl-width)/2,-(height*zoom_lvl-height)/2,width*zoom_lvl,height*zoom_lvl);
-});
-
-
-$('#zoomin').on('click', ()=>{
-    zoom_lvl /= 1.1;
-    draw.viewbox(-(width*zoom_lvl-width)/2,-(height*zoom_lvl-height)/2,width*zoom_lvl,height*zoom_lvl);
-});
+// moveController.enableZoom();
 
 let nodes = [];
 

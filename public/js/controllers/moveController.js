@@ -36,3 +36,20 @@ export function enableMove(){
         pan = false;
     });
 }
+
+export function enableZoom(){
+    // TODO: This function is very cluncky, init positions isn't set right
+    window.addEventListener('wheel', function(e){
+        e.preventDefault();
+        if(e.deltaY < 0){
+            zoom_lvl /= 1.05;
+            stage.viewbox(-(width*zoom_lvl-width)/2,-(height*zoom_lvl-height)/2,width*zoom_lvl,height*zoom_lvl);
+        } 
+        if(e.deltaY > 0){
+            zoom_lvl *= 1.05;
+            stage.viewbox(-(width*zoom_lvl-width)/2,-(height*zoom_lvl-height)/2,width*zoom_lvl,height*zoom_lvl);
+        }
+        boxx = stage.viewbox().x;
+        boxy = stage.viewbox().y;
+    });
+}
