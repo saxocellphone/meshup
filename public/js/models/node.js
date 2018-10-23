@@ -1,5 +1,5 @@
 import Connection from './connection.js';
-import {getRandomColor} from './utils.js';
+import {getRandomColor} from '../utils/utils.js';
 
 class Node {
     constructor(svg, name, cx = 0, cy = 0){
@@ -39,9 +39,14 @@ class Node {
     makeObjectDraggable(){
         let node = this.node_;
         node.draggable().on('dragmove', (e) => {
+            // TODO: Make this more efficient
             let coord = node.attr('transform').split(',');
             this.cx_ = parseFloat(coord[coord.length-2]);
             this.cy_ = parseFloat(coord[coord.length-1].slice(0, -1));
+            // let bbox = node.rbox().addOffset();
+            // this.cx_ = bbox.x+8;
+            // this.cy_ = bbox.y+8;
+            // console.log(this.cx_, this.cy_, testx, testy)
             this.move();
         });
     }
