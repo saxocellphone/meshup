@@ -2,11 +2,43 @@ import Node from './models/node.js';
 
 // define width and height
 let width = document.body.clientWidth, height = document.body.clientHeight
-
+let zoom_lvl = 1;
 // create SVG document and set its size
 let draw = SVG('main').size(width, height).attr({id: "main_svg"});
-// draw background
-let background = draw.rect(width, height).fill('#E3E8E6')
+let boxx = draw.viewbox().x;
+let boxy = draw.viewbox().y;
+let pan = false;
+let initpos;
+
+draw.on('mousedown', (e)=>{
+    pan = true;
+    initpos = {x: e.clientX, y: e.clientY };
+});
+
+draw.on('mousemove', (e)=>{
+    if(pan){
+        let dx = e.clientX - initpos.x;
+        let dy = e.clientY - initpos.y;
+        draw.viewbox(boxx - dx, boxy - dy, width*zoom_lvl, height*zoom_lvl);
+    }
+});
+
+draw.on('mouseup', (e)=>{
+    boxx = draw.viewbox().x;
+    boxy = draw.viewbox().y;
+    pan = false;
+});
+
+$('#zoomout').on('click', ()=>{
+    zoom_lvl *= 1.1;
+    draw.viewbox(-(width*zoom_lvl-width)/2,-(height*zoom_lvl-height)/2,width*zoom_lvl,height*zoom_lvl);
+});
+
+
+$('#zoomin').on('click', ()=>{
+    zoom_lvl /= 1.1;
+    draw.viewbox(-(width*zoom_lvl-width)/2,-(height*zoom_lvl-height)/2,width*zoom_lvl,height*zoom_lvl);
+});
 
 let nodes = [];
 
