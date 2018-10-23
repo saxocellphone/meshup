@@ -10,10 +10,11 @@ let zoom_lvl = 1;
 let pan = false;
 let initpos;
 
-export function setStage(svg){
-    stage = svg;
+export default function setStage(divName, width, height, attrs){
+    stage = SVG(divName).size(width, height).attr(attrs);;
     boxx = stage.viewbox().x;
     boxy = stage.viewbox().y;
+    return stage;
 }
 
 export function enableMove(){
