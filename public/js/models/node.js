@@ -1,10 +1,11 @@
 import Connection from './connection.js';
+import {getRandomColor} from './utils.js';
 
 class Node {
     constructor(svg, name, cx = 0, cy = 0){
         this.svg_ = svg;
         this.name_ = name; 
-        this.color_ = '#00ff99';
+        this.color_ = getRandomColor();
         this.cx_ = cx;
         this.cy_ = cy;
         this.connections_ = [];
@@ -69,6 +70,6 @@ class Node {
     get name() {
         return this.name_;
     }
- }
+}
 
 export default Node;
