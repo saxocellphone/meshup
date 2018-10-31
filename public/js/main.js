@@ -5,7 +5,7 @@ let width = document.body.clientWidth, height = document.body.clientHeight
 
 let stage = stageController.default('main', width, height, {id: "main_svg"});
 stageController.enableMove();
-// moveController.enableZoom();
+stageController.enableZoom();    
 
 let nodes = [];
 
