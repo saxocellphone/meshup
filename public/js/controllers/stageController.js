@@ -44,12 +44,11 @@ export function enableZoom(){
         e.preventDefault();
         if(e.deltaY < 0){
             zoom_lvl /= 1.05;
-            stage.viewbox(-(width*zoom_lvl-width)/2,-(height*zoom_lvl-height)/2,width*zoom_lvl,height*zoom_lvl);
         } 
         if(e.deltaY > 0){
-            zoom_lvl *= 1.05;
-            stage.viewbox(-(width*zoom_lvl-width)/2,-(height*zoom_lvl-height)/2,width*zoom_lvl,height*zoom_lvl);
+            zoom_lvl *= 1.05;   
         }
+        stage.viewbox(-(width*zoom_lvl-width)/2 + boxx,-(height*zoom_lvl-height)/2 + boxy,width*zoom_lvl,height*zoom_lvl);
         boxx = stage.viewbox().x;
         boxy = stage.viewbox().y;
     });
