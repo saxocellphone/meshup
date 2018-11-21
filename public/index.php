@@ -9,8 +9,9 @@ use app\library\Core;
 use app\controllers\LoginController;
 use app\controllers\MainController;
 
-
 $core = new Core();
+
+$core->loadDatabase();
 
 if (empty($_REQUEST['component'])) {
     $_REQUEST['component'] = 'login';
@@ -31,3 +32,4 @@ switch($_REQUEST['component']){
         break;
 }
 $core->displayOutput();
+

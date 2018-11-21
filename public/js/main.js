@@ -16,6 +16,7 @@ nodes.push(new Node(stage, "Victor", 1000, 420));
 nodes.push(new Node(stage, "Selia", 280, 500));
 
 for(let i = 0; i < nodes.length; i++){
+    //TODO: We want to make the stage append the node, not the other way around. 
     nodes[i].append();
 }
 

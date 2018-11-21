@@ -1,7 +1,7 @@
 
 let stage;
 
-let width = document.body.clientWidth, height = document.body.clientHeight;
+const width = document.body.clientWidth, height = document.body.clientHeight;
 
 let boxx, boxy;
 
