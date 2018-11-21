@@ -37,18 +37,15 @@ class DatabaseQueries {
     }
 
     /**
-     * Gets all the users in the network
+     * Gets all the users in the network in json
      */
     public function getUsers(){
         $sql = "SELECT * from users";
         $result = $this->meshup_db->query($sql);
-        if ($result->num_rows > 0) {
-            // output data of each row
-            while($row = $result->fetch_assoc()) {
-                echo "id: " . $row["id"]. " - Name: " . $row["first_name"]. " " . $row["last_name"]. "<br>";
-            }
-        } else {
-            echo "0 results";
+        $rows = array();
+        while($r = mysqli_fetch_assoc($result)) {
+            $rows[] = $r;
         }
+        return json_encode($rows);
     }
 }

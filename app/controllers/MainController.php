@@ -19,8 +19,8 @@ class MainController {
     }
 
     public function run() {
-        $this->core->getDB()->getUsers();
-        $this->core->renderOutput($this->view->showMainApp());
+        $users = $this->core->getDB()->getUsers();
+        $this->core->renderOutput($this->view->showMainApp($users));
     }
     
 }
