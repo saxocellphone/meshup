@@ -39,7 +39,7 @@ class DatabaseQueries {
     /**
      * Gets all the users in the network in json
      */
-    public function getUsers(){
+    public function getUsersJSON(){
         $sql = "SELECT * from users";
         $result = $this->meshup_db->query($sql);
         $rows = array();
@@ -47,5 +47,35 @@ class DatabaseQueries {
             $rows[] = $r;
         }
         return json_encode($rows);
+    }
+
+    public function checkUserExist($username){
+        // Need to fix this to prevent sql injection
+        $sql = "SELECT username FROM users WHERE username = '" . $username . "'";
+        $result = $this->meshup_db->query($sql);
+        return $result->num_rows > 0;
+    }
+
+    public function makeAccount($attrs = array()){
+        $cols = implode('", "', $attrs);
+        $sql = "INSERT INTO users ( username, password, first_name, last_name, profession ) VALUES ( \"$cols\" )";
+        var_dump($sql);
+        return $this->meshup_db->query($sql);
+    }
+
+    public function checkUser($username, $password){
+        $sql = "SELECT username, password FROM users WHERE username = '$username'";
+        $result = $this->meshup_db->query($sql);
+        if(!$result->num_rows > 0){
+            return array('msg' => 'User does not exist!', 'status' => false);
+        }  else {
+            $row = $result->fetch_assoc();
+            if($row['password'] == $password){
+                return array('msg' => 'Success!', 'status' => true);
+            } else {
+                var_dump($sql);
+                return array('msg' => 'Username or password does not match.', 'status' => false);
+            }
+        }
     }
 }

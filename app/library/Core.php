@@ -32,6 +32,11 @@ class Core {
         $this->db->connect();
     }
 
+    public function redirect($url){
+        header('Location: ' . $url);
+        die();
+    }
+
     public function getDB(){
         return $this->db;
     }

@@ -5,14 +5,14 @@ let width = document.body.clientWidth, height = document.body.clientHeight
 
 let stage = stageController.default('main', width, height, {id: "main_svg"});
 stageController.enableMove();
-stageController.enableZoom();    
+// stageController.enableZoom();    
 
 let nodes = [];
 console.log(users);
 for(let index in users){
     let user = users[index];
     let name = user['first_name'] + " " + user['last_name'].charAt(0) + ".";
-    nodes.push(new Node(stage, name, Math.random()*500, Math.random()*500));
+    nodes.push(new Node(stage, name, Math.random()*1000, Math.random()*500));
 }
 
 for(let i = 0; i < nodes.length; i++){
@@ -20,9 +20,9 @@ for(let i = 0; i < nodes.length; i++){
     nodes[i].append();
 }
 
-for(let i = 0; i < nodes.length; i++){
-    for(let j = 0; j < nodes.length; j++){
-        if(i == j) continue;
-        nodes[i].addConnection(nodes[j]);
-    }
-}
+// for(let i = 0; i < nodes.length; i++){
+//     for(let j = 0; j < nodes.length; j++){
+//         if(i == j) continue;
+//         nodes[i].addConnection(nodes[j]);
+//     }
+// }

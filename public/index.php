@@ -17,6 +17,10 @@ if (empty($_REQUEST['component'])) {
     $_REQUEST['component'] = 'login';
 }
 
+if (empty($_REQUEST['page'])) {
+    $_REQUEST['page'] = 'login_page';
+}
+
 switch($_REQUEST['component']){
     case 'main':
         $control = new MainController($core);
