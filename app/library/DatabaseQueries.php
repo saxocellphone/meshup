@@ -59,7 +59,6 @@ class DatabaseQueries {
     public function makeAccount($attrs = array()){
         $cols = implode('", "', $attrs);
         $sql = "INSERT INTO users ( username, password, first_name, last_name, profession ) VALUES ( \"$cols\" )";
-        var_dump($sql);
         return $this->meshup_db->query($sql);
     }
 
@@ -73,7 +72,6 @@ class DatabaseQueries {
             if($row['password'] == $password){
                 return array('msg' => 'Success!', 'status' => true);
             } else {
-                var_dump($sql);
                 return array('msg' => 'Username or password does not match.', 'status' => false);
             }
         }

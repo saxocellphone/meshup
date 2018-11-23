@@ -9,6 +9,8 @@ use app\library\Core;
 use app\controllers\LoginController;
 use app\controllers\MainController;
 
+session_start();
+$_SESSION['logged_in'] = isset($_SESSION['logged_in']) ?? false;
 $core = new Core();
 
 $core->loadDatabase();

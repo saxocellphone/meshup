@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\library\Core;
 use app\views\LoginView;
 use app\views\AccountCreationView;
+use app\views\MainView;
 
 class LoginController {
     /** @var Core */
@@ -53,7 +54,7 @@ class LoginController {
         // TODO: Should move this to an authenticator class
         if($this->logged_in){
             // Needs cookies and whatever, saving for later.
-            $this->login();
+            // $this->login();
         }
         $error_flag = false;
         if($_SERVER['REQUEST_METHOD'] == "POST"){
@@ -68,15 +69,20 @@ class LoginController {
                 $error_flag = true;
             }
         }
-
-        if(!$this->core->getDB()->checkUser($username, $password)['status']){
+        
+        $check_user = $this->core->getDB()->checkUser($username, $password);
+        if(!$check_user['status']){
             $error_flag = true;
         }
-
         if($error_flag){
-            $this->core->redirect("http://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] . '?&component=login');
+            session_destroy();
+            $this->view = new LoginView();
+            $this->core->renderOutput($this->view->showLoginPage(array('msg' => $check_user['msg'])));
+            // $this->core->redirect("http://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] . '?&component=login');
         } else {
-            $this->core->redirect("http://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] . '?&component=main');
+            $_SESSION['logged_in'] = true;
+            $_SESSION['username'] = $username;
+            $this->core->redirect("http://" . $_SERVER['SERVER_NAME'] . $_SERVER['PHP_SELF'] . '?&component=main');
         }
         
     }

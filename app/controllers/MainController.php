@@ -19,6 +19,10 @@ class MainController {
     }
 
     public function run() {
+        if(!$_SESSION['logged_in']){
+            echo "You don't have access";
+            return false;
+        }
         $users = $this->core->getDB()->getUsersJSON();
         $this->core->renderOutput($this->view->showMainApp($users));
     }
