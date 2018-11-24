@@ -2,7 +2,7 @@ import Connection from './connection.js';
 import {getRandomColor} from '../utils/utils.js';
 
 class Node {
-    constructor(svg, name, cx = 0, cy = 0){
+    constructor(svg, name, cx = 0, cy = 0, self_node){
         this.svg_ = svg;
         this.name_ = name; 
         this.color_ = getRandomColor();
@@ -11,6 +11,7 @@ class Node {
         this.connections_ = [];
         this.neib_ = []
         this.radius_ = 50;
+        this.self_node = self_node;
     }
 
     append() {
@@ -19,6 +20,16 @@ class Node {
         let circle = this.svg_.circle(r*2).fill(this.color_).cx(r).cy(r);
         let text = this.svg_.text(this.name_).cx(r).cy(r);
         node.add(circle);
+        if(this.self_node){
+            let border = this.svg_.circle(r*2).cx(r).cy(r);
+            border.attr({
+                fill: '#fff'
+              , 'fill-opacity': 0
+              , stroke: '#000'
+              , 'stroke-width': 5
+            });
+            node.add(border);
+        }
         node.add(text);
         node.cx(this.cx).cy(this.cy);
         this.node_ = node;

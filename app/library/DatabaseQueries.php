@@ -40,7 +40,7 @@ class DatabaseQueries {
      * Gets all the users in the network in json
      */
     public function getUsersJSON(){
-        $sql = "SELECT * from users";
+        $sql = "SELECT username, first_name, last_name, profession from users";
         $result = $this->meshup_db->query($sql);
         $rows = array();
         while($r = mysqli_fetch_assoc($result)) {

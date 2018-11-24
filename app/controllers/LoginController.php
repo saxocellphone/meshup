@@ -23,6 +23,7 @@ class LoginController {
     }
 
     public function run() {
+        // TODO: All DB access functions should go into model.
         switch($_REQUEST['page']){
             case 'login':
             break;
@@ -69,7 +70,7 @@ class LoginController {
                 $error_flag = true;
             }
         }
-        
+
         $check_user = $this->core->getDB()->checkUser($username, $password);
         if(!$check_user['status']){
             $error_flag = true;

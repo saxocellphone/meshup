@@ -8,11 +8,12 @@ stageController.enableMove();
 // stageController.enableZoom();    
 
 let nodes = [];
-console.log(users);
+
 for(let index in users){
     let user = users[index];
     let name = user['first_name'] + " " + user['last_name'].charAt(0) + ".";
-    nodes.push(new Node(stage, name, Math.random()*1000, Math.random()*500));
+    
+    nodes.push(new Node(stage, name, Math.random()*1000, Math.random()*500, (user['username'] == username)));
 }
 
 for(let i = 0; i < nodes.length; i++){

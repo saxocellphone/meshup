@@ -23,8 +23,9 @@ class MainController {
             echo "You don't have access";
             return false;
         }
+        $username = $_SESSION['username'];
         $users = $this->core->getDB()->getUsersJSON();
-        $this->core->renderOutput($this->view->showMainApp($users));
+        $this->core->renderOutput($this->view->showMainApp($users, $username));
     }
     
 }
