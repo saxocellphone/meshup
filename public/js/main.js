@@ -8,18 +8,22 @@ stageController.enableMove();
 // stageController.enableZoom();    
 
 let nodes = [];
-
 for(let index in users){
     let user = users[index];
     let name = user['first_name'] + " " + user['last_name'].charAt(0) + ".";
-    
-    nodes.push(new Node(stage, name, Math.random()*1000, Math.random()*500, (user['username'] == username)));
+    let node = new Node(stage, name, Math.random()*1000, Math.random()*500, (user['username'] == username));
+    if((user['username'] == username)){
+        window.selfnode = node;
+    }
+    nodes.push(node);
 }
 
 for(let i = 0; i < nodes.length; i++){
     //TODO: We want to make the stage append the node, not the other way around. 
     nodes[i].append();
 }
+
+nodes[0].tryAddConnection(nodes[1]);
 
 // for(let i = 0; i < nodes.length; i++){
 //     for(let j = 0; j < nodes.length; j++){
