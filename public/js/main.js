@@ -11,7 +11,7 @@ let nodes = [];
 for(let index in users){
     let user = users[index];
     let name = user['first_name'] + " " + user['last_name'].charAt(0) + ".";
-    let node = new Node(stage, name, Math.random()*1000, Math.random()*500, (user['username'] == username));
+    let node = new Node(stage, user['username'], name, Math.random()*1000, Math.random()*500, (user['username'] == username));
     if((user['username'] == username)){
         window.selfnode = node;
     }
@@ -23,7 +23,7 @@ for(let i = 0; i < nodes.length; i++){
     nodes[i].append();
 }
 
-nodes[0].tryAddConnection(nodes[1]);
+nodes[0].addConnection(nodes[1]);
 
 // for(let i = 0; i < nodes.length; i++){
 //     for(let j = 0; j < nodes.length; j++){

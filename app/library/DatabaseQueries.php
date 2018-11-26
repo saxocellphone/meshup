@@ -25,7 +25,7 @@ class DatabaseQueries {
     public function connect(){
         $servername = "localhost";
         $username = "root";
-        $password = "";
+        $password = "horsecupmeatpump";
         $db_name = "meshup";
 
         $conn = mysqli_connect($servername, $username, $password, $db_name);

@@ -3,9 +3,10 @@ import {getRandomColor} from '../utils/utils.js';
 
 class Node {
 
-    constructor(svg, name, cx = 0, cy = 0, self_node){
+    constructor(svg, username, name, cx = 0, cy = 0, self_node){
         this.svg_ = svg;
         this.name_ = name; 
+        this.username_ = username;
         this.color_ = getRandomColor();
         this.cx_ = cx;
         this.cy_ = cy;
@@ -67,8 +68,9 @@ class Node {
         node.draggable().on('dragmove', (e) => {
             // TODO: Make this more efficient
             const coord = node.attr('transform').split(',');
-            this.cx_ = parseFloat(coord[coord.length-2]);
-            this.cy_ = parseFloat(coord[coord.length-1].slice(0, -1));
+            console.log(coord);
+            this.cx_ = parseFloat(coord[coord.length-2]) + this.radius;
+            this.cy_ = parseFloat(coord[coord.length-1].slice(0, -1)) + this.radius;
             // let bbox = node.rbox().addOffset();
             // this.cx_ = bbox.x+8;
             // this.cy_ = bbox.y+8;
@@ -100,6 +102,10 @@ class Node {
 
     get name() {
         return this.name_;
+    }
+
+    get username() {
+        return this.username_;
     }
 }
 

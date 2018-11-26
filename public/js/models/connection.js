@@ -33,10 +33,9 @@ class Connection {
     }
 
     moveLine(node){
-        let cx = node.cx + node.radius;
-        let cy = node.cy + node.radius;
-        //TODO: Switch this to id instead of name.
-        this.node1_.name === node.name ? this.maniConnection(1, cx, cy) : this.maniConnection(2, cx, cy);
+        let cx = node.cx;
+        let cy = node.cy;
+        this.node1_.username === node.username ? this.maniConnection(1, cx, cy) : this.maniConnection(2, cx, cy);
     }
 
     get node1(){
