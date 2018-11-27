@@ -2,6 +2,8 @@
 
 namespace app\library;
 
+use app\model\User;
+
 /**
  * Class DatabaseQueries
  *
@@ -14,6 +16,7 @@ class DatabaseQueries {
     protected $course_db;
 
     private $meshup_db = NULL;
+    private $user = NULL;
 
     public function __construct(Core $core) {
         $this->core = $core;
@@ -74,6 +77,17 @@ class DatabaseQueries {
             } else {
                 return array('msg' => 'Username or password does not match.', 'status' => false);
             }
+        }
+    }
+
+    public function getMeshupUser($username){
+        $sql = "SELECT * FROM users WHERE username = '$username'";
+        $result = $this->meshup_db->query($sql);
+        if(!$result->num_rows > 0){
+            return null;
+        }  else {
+            $row = $result->fetch_assoc();
+            return new User($this->core, $row);
         }
     }
 }

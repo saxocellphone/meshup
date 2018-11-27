@@ -23,6 +23,28 @@ class Core {
         $this->output .= $output;
     }
 
+    public function renderJSON($json){
+        $this->output = json_encode($json);
+    }
+
+    public function renderJSONSuccess($json){
+        $response = [
+            'status' => 'success',
+            'json' => $json
+        ];
+        // $this->renderJSON($response);
+        return $response;
+    }
+
+    public function renderJSONError($json){
+        $response = [
+            'status' => 'error',
+            'json' => $json
+        ];
+        $this->render/JSON($response);
+        return $response;
+    }
+
     public function displayOutput(){
         echo($this->getOutput());
     }
@@ -39,5 +61,16 @@ class Core {
 
     public function getDB(){
         return $this->db;
+    }
+
+    /**
+     * This function is called whenever you log in
+     */
+    public function loadUser($userid){
+        $this->user = $this->db->getMeshupUser($userid);
+    }
+
+    public function getUser(){
+        return $this->user;
     }
 }

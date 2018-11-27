@@ -10,7 +10,7 @@ class MainController {
     /** @var Core */
     protected $core;
     
-    /** @var LoginView */
+    /** @var MainView */
     protected $view;
     
     public function __construct(Core $core) {
@@ -24,8 +24,15 @@ class MainController {
             return false;
         }
         $username = $_SESSION['username'];
-        $users = $this->core->getDB()->getUsersJSON();
-        $this->core->renderOutput($this->view->showMainApp($users, $username));
+        $this->core->loadUser($username);
+        if($this->core->getUser() != NULL){
+            //TODO: Switch to getusers, and delete getUserJSON
+            $users = $this->core->getDB()->getUsersJSON();
+            $this->core->renderOutput($this->view->showMainApp($this->core, $users));
+        } else {
+            echo "Something went wrong";
+            return false;
+        }
     }
     
 }
