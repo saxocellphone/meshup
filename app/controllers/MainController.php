@@ -15,7 +15,7 @@ class MainController {
     
     public function __construct(Core $core) {
         $this->core = $core;
-        $this->view = new MainView();
+        $this->view = new MainView($core);
     }
 
     public function run() {
@@ -28,7 +28,7 @@ class MainController {
         if($this->core->getUser() != NULL){
             //TODO: Switch to getusers, and delete getUserJSON
             $users = $this->core->getDB()->getUsersJSON();
-            $this->core->renderOutput($this->view->showMainApp($this->core, $users));
+            $this->core->renderOutput($this->view->showMainApp($users));
         } else {
             echo "Something went wrong";
             return false;

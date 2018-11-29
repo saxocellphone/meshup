@@ -1,5 +1,6 @@
 import Connection from './connection.js';
 import {getRandomColor} from '../utils/utils.js';
+import '../../vender/jquery.js';
 
 class Node {
 
@@ -39,17 +40,26 @@ class Node {
         if(!this.is_self_node){
             node.click((e) => {
                 // Don't like this being a global variable.
-                window.selfnode.addConnection(this);
+                window.selfnode.tryAddConnection(this);
             });
         }
     }
 
     tryAddConnection(node){
-        console.log(site_url);
-        // $.ajax({
-        //     url: site_url,
-
-        // })
+        $.ajax({
+            url: "?&component=api&function=add_to_connect_queue",
+            method: "POST",
+            data: {
+                "user_to_connect": node.username_
+            }
+        }).done((data) => {
+            data = JSON.parse(data);
+            if(data['status'] == "success"){
+                alert("Sent a connection request to " + node.name);
+            } else {
+                alert("ERROR: " + data['json']);
+            }
+        });
     }
 
     addConnection(node, addBackConn = null){
@@ -68,7 +78,6 @@ class Node {
         node.draggable().on('dragmove', (e) => {
             // TODO: Make this more efficient
             const coord = node.attr('transform').split(',');
-            console.log(coord);
             this.cx_ = parseFloat(coord[coord.length-2]) + this.radius;
             this.cy_ = parseFloat(coord[coord.length-1].slice(0, -1)) + this.radius;
             // let bbox = node.rbox().addOffset();

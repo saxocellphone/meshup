@@ -9,7 +9,8 @@ class User{
     private $username;
     private $profession;
 
-    private $connections = [];
+    // Should switch to connection model
+    private $connections;
     
     private $core;
     public function __construct(Core $core, $details=array()) {
@@ -18,6 +19,24 @@ class User{
         $this->last_name = $details['last_name'];
         $this->profession = $details['profession'];        
         $this->username = $details['username'];
+        $this->connections = array();
+    }
+
+    /**
+     * @param User $user2 User object of the user to connect to.
+     * 
+     * Attemps to connect two nodes
+     * 
+     * @return Array Status of adding
+     */
+
+    public function connectTo(User $user2){
+        if(in_array($user2, $this->connections)){
+            $this->core->renderJSONError('Connection already established.');
+            return false;
+        }
+        $this->connections[] = $user2;
+        return $this->core->getDB()->connectTwo($this->core->getUser(), $user2);
     }
 
     /**

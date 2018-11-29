@@ -65,7 +65,11 @@ class DatabaseQueries {
         return $this->meshup_db->query($sql);
     }
 
-    public function checkUser($username, $password){
+    /**
+     * Check if username and password match
+     */
+
+    public function checkUser(String $username, String $password){
         $sql = "SELECT username, password FROM users WHERE username = '$username'";
         $result = $this->meshup_db->query($sql);
         if(!$result->num_rows > 0){
@@ -80,7 +84,112 @@ class DatabaseQueries {
         }
     }
 
-    public function getMeshupUser($username){
+    /**
+     * Returns rows of only unseen connection requests, for the purpose of update.
+     */
+    public function getNewConnectionRequests(User $user){
+        $username = $user->username;
+        $sql = "SELECT connect_from, time_stamp FROM adding_queue WHERE connect_to = '$username' and viewed = 0";
+        $result = $this->meshup_db->query($sql);
+        
+        $sql = "UPDATE adding_queue SET viewed = 1 WHERE connect_to = '$username'";
+        $this->meshup_db->query($sql);
+        return json_encode($result->fetch_assoc());
+    }
+
+    /**
+     * Try adding connection to adding queue
+     */
+    public function addToConnectionQueue(User $user1, User $user2){
+        $user1_username = $user1->username;
+        $user2_username = $user2->username;
+        if($this->checkConnectionExist($user1_username, $user2_username)){
+            return array('msg' => 'Connection already established!', 'status' => false);
+        } else {
+            switch($this->checkRequestExist($user1_username, $user2_username)){
+                case 0:
+                    $sql = "INSERT INTO adding_queue (connect_from, connect_to) VALUES ('$user1_username', '$user2_username')";
+                    $this->meshup_db->query($sql);
+                    return array('msg' => 'Added request to queue.', 'status' => true);
+                    break;
+                case 1:
+                    return array('msg' => 'Already sent a request.', 'status' => false);
+                    break;
+                case 2:
+                    return $this->connectTwo($user1, $user2);
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Remove recard from queue if the request is rejected.
+     */
+    public function removeFromConnectionQueue(User $sender, User $receiver){
+        $sql = "DELETE FROM adding_queue WHERE (connect_from = '$sender->username' and connect_to = '$receiver->username')";
+        $this->meshup_db->query($sql);
+        return array('status' => true);
+    }
+
+    /**
+     * Try to connect two nodes together in the connections table
+     */
+    public function connectTwo(User $user1, User $user2){
+        $user1_username = $user1->username;
+        $user2_username = $user2->username;
+        if($this->checkConnectionExist($user1_username, $user2_username)){
+            return array('msg' => 'Connection already established!', 'status' => false);
+        } else {
+            switch($this->checkRequestExist($user1_username, $user2_username)){
+                case 0:
+                    return array('msg' => 'The person did not send a request', 'status' => false);
+                    break;
+                default:
+                    $this->removeFromConnectionQueue($user1, $user2);
+                    $this->removeFromConnectionQueue($user2, $user1);
+                    break;
+            }
+            $sql = "INSERT INTO connections (first_username, second_username) VALUES ('$user1_username', '$user2_username')";
+            $sql2 = "INSERT INTO connections (second_username, first_username) VALUES ('$user1_username', '$user2_username')";
+            $this->meshup_db->query($sql);
+            $this->meshup_db->query($sql2);
+            return array('msg' => 'Connected ' . $user1_username . ' with '. $user2_username . ".", 'status' => true);
+        }
+    }
+
+    /**
+     * Returns a status code 
+     * 0: does not exist
+     * 1: user1 already sent a request
+     * 2: user2 already sent user1 a request
+     */
+
+    public function checkRequestExist(String $name1, String $name2){
+        $sql = "SELECT * FROM adding_queue WHERE (connect_from = '$name1' AND connect_to = '$name2')";
+        $result = $this->meshup_db->query($sql);
+        if($result->num_rows > 0){
+            return 1;
+        }
+        $sql = "SELECT * FROM adding_queue WHERE (connect_from = '$name2' AND connect_to = '$name1')";
+        $result = $this->meshup_db->query($sql);
+        if($result->num_rows > 0){
+            return 2;
+        }
+        return 0;
+    }
+
+    public function checkConnectionExist(String $name1, String $name2){
+        $sql = "SELECT * FROM connections WHERE (first_username = '$name1' AND second_username = '$name2')";
+        $result = $this->meshup_db->query($sql);
+        return $result->num_rows > 0;
+    }
+
+    /**
+     * @param String username
+     * 
+     * @return User An User model
+     */
+    public function getMeshupUser(String $username){
         $sql = "SELECT * FROM users WHERE username = '$username'";
         $result = $this->meshup_db->query($sql);
         if(!$result->num_rows > 0){

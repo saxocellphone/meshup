@@ -8,6 +8,7 @@ spl_autoload_register(function ($class_name) {
 use app\library\Core;
 use app\controllers\LoginController;
 use app\controllers\MainController;
+use app\controllers\APIController;
 
 session_start();
 $_SESSION['logged_in'] = isset($_SESSION['logged_in']) ?? false;
@@ -30,6 +31,10 @@ switch($_REQUEST['component']){
         break;
     case 'login':
         $control = new LoginController($core);
+        $control->run();
+        break;
+    case 'api':
+        $control = new APIController($core);
         $control->run();
         break;
     default:

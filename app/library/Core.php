@@ -11,6 +11,8 @@ use app\library\DatabaseQueries;
 class Core {
     private $db = NULL;
 
+    private $user;
+
     public function __construct() {
         $this->output = "";
     }  
@@ -32,7 +34,7 @@ class Core {
             'status' => 'success',
             'json' => $json
         ];
-        // $this->renderJSON($response);
+        $this->renderJSON($response);
         return $response;
     }
 
@@ -41,7 +43,7 @@ class Core {
             'status' => 'error',
             'json' => $json
         ];
-        $this->render/JSON($response);
+        $this->renderJSON($response);
         return $response;
     }
 
