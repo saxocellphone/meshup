@@ -11,13 +11,35 @@ class meshup{
             url: '?&component=api&function=get_status',
             method: 'POST'
         }).done((data) => {
-            data = JSON.parse(data);
-            let json = JSON.parse(data['json']);
+            try{
+                data = JSON.parse(data);
+            } catch {
+    
+            }
+            let json = data['json'];
+            try{
+                json = JSON.parse(json);
+            } catch {
+                
+            }
+            
             if(data['status'] == "success" && json != null){
-                if(confirm("You have an incomming request from " + json['connect_from'] + ", accept or reject?")){
-                    this.acceptConnection(json['connect_from']);
-                } else {
-                    this.rejectConnection(json['connect_from']);
+                let new_requests = json['new_requests'];
+                if(new_requests != null){
+                    if(confirm("You have an incomming request from " + new_requests['connect_from'] + ", accept or reject?")){
+                        this.acceptConnection(new_requests['connect_from']);
+                    } else {
+                        this.rejectConnection(new_requests['connect_from']);
+                    }
+                }
+
+                let new_edges = json['new_edges'];
+                if(new_edges.length >= 1){
+                    for(let i = 0; i < new_edges.length; i+=2){
+                        let node1 = this.graph_.getNodeByUsername(new_edges[i][0]);
+                        let node2 = this.graph_.getNodeByUsername(new_edges[i][1]);
+                        node1.addConnection(node2);
+                    }
                 }
             }
         });
@@ -37,11 +59,17 @@ class meshup{
                 'incomming_username': incomming_username
             }
         }).done((data) => {
-            data = JSON.parse(data);
+            console.log(data);
+            try {
+                data = JSON.parse(data);
+            } catch {
+                console.log("Don't need json?");
+            }
             if(data['status'] == 'success'){
                 window.selfnode.addConnection(this.graph_.getNodeByUsername(incomming_username));
-                alert("Success!");
+                // alert("Success!");
             } else {
+                console.log(data);
                 alert("Something went wrong");
             }
         });

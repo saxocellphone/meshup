@@ -3,7 +3,7 @@
 namespace app\library;
 
 use app\model\User;
-use app\model\Connections;
+use app\model\Connection;
 
 /**
  * Class DatabaseQueries
@@ -53,17 +53,6 @@ class DatabaseQueries {
         return json_encode($rows);
     }
 
-    public function getAdjacencyList(){
-        $nodes = $this->getMeshupUsers();
-        $edges = $this->getMeshupEdge();
-        $list = array();
-        // for($nodes as $node){
-        //     for($edges as $edge){
-
-        //     }
-        // }
-    }
-
     public function checkUserExist($username){
         // Need to fix this to prevent sql injection
         $sql = "SELECT username FROM users WHERE username = '" . $username . "'";
@@ -106,7 +95,31 @@ class DatabaseQueries {
         
         $sql = "UPDATE adding_queue SET viewed = 1 WHERE connect_to = '$username'";
         $this->meshup_db->query($sql);
-        return json_encode($result->fetch_assoc());
+        return $result->num_rows > 0 ? $result->fetch_assoc() : null;
+    }
+
+    public function getNewEdges(User $user){
+        $time_updated = $user->last_update;
+        $count = $this->numberConnections();
+        $diff = $count - $_SESSION['total_connection'];
+        if($diff != 0){
+            $sql = "SELECT first_username, second_username FROM `connections` ORDER BY time_stamp DESC LIMIT {$diff}";
+            $result = $this->meshup_db->query($sql);
+            $new_edges = array();
+            while($row = mysqli_fetch_assoc($result)){
+                $new_edges[] = new Connection($this->core, $row);
+            }
+            $_SESSION['total_connection'] = $count;
+            return $new_edges;
+        } else {
+            return array();
+        }
+    }
+
+    public function numberConnections(){
+        $sql = "SELECT COUNT(*) as count FROM `connections`";
+        $count = intval($this->meshup_db->query($sql)->fetch_assoc()['count']);
+        return $count;
     }
 
     /**

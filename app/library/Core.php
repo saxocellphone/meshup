@@ -3,6 +3,7 @@
 namespace app\library;
 
 use app\library\DatabaseQueries;
+use app\model\Graph;
 /**
  * Class core
  *
@@ -12,6 +13,7 @@ class Core {
     private $db = NULL;
 
     private $user;
+    private $graph;
 
     public function __construct() {
         $this->output = "";
@@ -54,6 +56,9 @@ class Core {
     public function loadDatabase(){
         $this->db = new DatabaseQueries($this);
         $this->db->connect();
+        // MOVE THIS
+        $num_connections = $this->db->numberConnections();
+        $this->graph = new Graph($this, array("total_connections" => $num_connections));
     }
 
     public function redirect($url){
@@ -70,6 +75,10 @@ class Core {
      */
     public function loadUser($userid){
         $this->user = $this->db->getMeshupUser($userid);
+    }
+
+    public function getGraph(){
+        return $this->graph;
     }
 
     public function getUser(){

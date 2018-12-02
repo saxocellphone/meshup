@@ -22,7 +22,6 @@ Object.entries(adj_list).map(([username, attr]) => {
     if((username == self_username)){
         window.selfnode = node;
     }
-    console.log(node);
     graph.addNode(node);
 })
 
