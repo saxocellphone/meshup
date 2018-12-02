@@ -1,6 +1,7 @@
 import Node from './models/node.js';
 import * as stageController from './controllers/stageController.js';
 import Meshup from './models/meshup.js';
+import Graph from './models/graph.js';
 
 let width = document.body.clientWidth, height = document.body.clientHeight
 
@@ -9,20 +10,32 @@ stageController.enableMove();
 // stageController.enableZoom();    
 
 
-let meshup = new Meshup(username);
+
+let graph = new Graph();
+
+let meshup = new Meshup(self_username, graph);
 meshup.fetchStatus(true);
-let nodes = [];
-for(let index in users){
-    let user = users[index];
-    let name = user['first_name'] + " " + user['last_name'].charAt(0) + ".";
-    let node = new Node(stage, user['username'], name, Math.random()*1000, Math.random()*500, (user['username'] == username));
-    if((user['username'] == username)){
+
+Object.entries(adj_list).map(([username, attr]) => {
+    let name = attr['firstname'] + " " + attr['lastname'].charAt(0) + ".";
+    let node = new Node(stage, username, name, attr['connections'], Math.random()*width, Math.random()*height, (username == self_username));
+    if((username == self_username)){
         window.selfnode = node;
     }
-    nodes.push(node);
-}
+    console.log(node);
+    graph.addNode(node);
+})
 
-for(let i = 0; i < nodes.length; i++){
+for(let i = 0; i < graph.nodes.length; i++){
     //TODO: We want to make the stage append the node, not the other way around. 
-    nodes[i].append();
+    graph.nodes[i].append();
+}
+// Adds init connections
+for(let i = 0; i < graph.nodes.length; i++){
+    for(let j = 0; j < graph.nodes[i].neighbors.length; j++){
+        let neib_node = graph.getNodeByUsername(graph.nodes[i].neighbors[j]);
+        if(neib_node){
+            graph.nodes[i].addConnection(neib_node);
+        }
+    }
 }

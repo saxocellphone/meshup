@@ -19,7 +19,7 @@ class User{
         $this->last_name = $details['last_name'];
         $this->profession = $details['profession'];        
         $this->username = $details['username'];
-        $this->connections = array();
+        $this->connections = explode(', ', $details['connections']) ?? array();
     }
 
     /**

@@ -1,6 +1,7 @@
 class meshup{
-    constructor(username){
+    constructor(username, graph){
         this.username_ = username;
+        this.graph_ = graph;
         // this.url_ = url;
         this.continuous_ = false;
     }
@@ -35,9 +36,10 @@ class meshup{
             data: {
                 'incomming_username': incomming_username
             }
-        }).done(function(data){
+        }).done((data) => {
             data = JSON.parse(data);
             if(data['status'] == 'success'){
+                window.selfnode.addConnection(this.graph_.getNodeByUsername(incomming_username));
                 alert("Success!");
             } else {
                 alert("Something went wrong");
@@ -45,7 +47,7 @@ class meshup{
         });
     }
 
-    rejectConnection(){
+    rejectConnection(incomming_username){
         $.ajax({
             url: '?&component=api&function=reject_request',
             method: 'POST',

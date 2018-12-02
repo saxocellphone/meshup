@@ -4,7 +4,7 @@ import '../../vender/jquery.js';
 
 class Node {
 
-    constructor(svg, username, name, cx = 0, cy = 0, self_node){
+    constructor(svg, username, name, neib, cx = 0, cy = 0, self_node){
         this.svg_ = svg;
         this.name_ = name; 
         this.username_ = username;
@@ -12,8 +12,8 @@ class Node {
         this.cx_ = cx;
         this.cy_ = cy;
         this.connections_ = [];
-        this.neib_ = []
-        this.radius_ = 50;
+        this.neib_ = neib[0].split(',');
+        this.radius_ = 35;
         this.is_self_node = self_node;
     }
 
@@ -115,6 +115,10 @@ class Node {
 
     get username() {
         return this.username_;
+    }
+
+    get neighbors() {
+        return this.neib_;
     }
 }
 

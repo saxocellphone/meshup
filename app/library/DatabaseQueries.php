@@ -3,6 +3,7 @@
 namespace app\library;
 
 use app\model\User;
+use app\model\Connections;
 
 /**
  * Class DatabaseQueries
@@ -50,6 +51,17 @@ class DatabaseQueries {
             $rows[] = $r;
         }
         return json_encode($rows);
+    }
+
+    public function getAdjacencyList(){
+        $nodes = $this->getMeshupUsers();
+        $edges = $this->getMeshupEdge();
+        $list = array();
+        // for($nodes as $node){
+        //     for($edges as $edge){
+
+        //     }
+        // }
     }
 
     public function checkUserExist($username){
@@ -190,13 +202,33 @@ class DatabaseQueries {
      * @return User An User model
      */
     public function getMeshupUser(String $username){
-        $sql = "SELECT * FROM users WHERE username = '$username'";
+        $sql = "SELECT users.*, GROUP_CONCAT(connections.second_username) as connections FROM users LEFT JOIN connections ON users.username = connections.first_username WHERE users.username = '$username'";
         $result = $this->meshup_db->query($sql);
         if(!$result->num_rows > 0){
             return null;
-        }  else {
+        } else {
             $row = $result->fetch_assoc();
             return new User($this->core, $row);
         }
+    }
+
+    public function getMeshupEdge(){
+        $sql = "SELECT * FROM connections";
+        $result = $this->meshup_db->query($sql);
+        $edges = array();
+        while($row = mysqli_fetch_assoc($result)){
+            $edges[] = new Connection($this->core, $row);
+        }
+        return $edges;
+    }
+
+    public function getMeshupUsers(){
+        $sql = "SELECT users.*, GROUP_CONCAT(connections.second_username) as connections FROM users LEFT JOIN connections ON users.username = connections.first_username GROUP BY users.username";
+        $result = $this->meshup_db->query($sql);
+        $users = array();
+        while($row = mysqli_fetch_assoc($result)){
+            $users[] = new User($this->core, $row);
+        }
+        return $users;
     }
 }
