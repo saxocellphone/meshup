@@ -10,9 +10,14 @@ use app\controllers\LoginController;
 use app\controllers\MainController;
 use app\controllers\APIController;
 
+define('TIMEZONE', 'America/New_York');
+date_default_timezone_set(TIMEZONE);
+
 session_start();
 $_SESSION['logged_in'] = isset($_SESSION['logged_in']) ?? false;
 $core = new Core();
+
+$_SESSION['total_connection'] = $_SESSION['total_connection'] > 0 ? $_SESSION['total_connection'] : intval(0);
 
 $core->loadDatabase();
 

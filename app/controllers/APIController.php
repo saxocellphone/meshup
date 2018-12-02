@@ -53,10 +53,20 @@ class APIController {
      * Get the status of connection requests, msgs, etc.
      */
     public function getStatus(){
+        $update = array();
         $user = $this->core->getUser();
-        $user_id = $user->username;
+
         $new_requests = $this->core->getDB()->getNewConnectionRequests($user);
-        $this->core->renderJSONSuccess($new_requests);
+        $update['new_requests'] = $new_requests;
+
+        $new_edges = $this->core->getDB()->getNewEdges($user);
+        $new_edges_array = array();
+        for($i = 0; $i < count($new_edges); $i++){
+            $new_edges_array[] = array($new_edges[$i]->first_user, $new_edges[$i]->second_user);
+        }
+        $update['new_edges'] = $new_edges_array;
+        $user->renewUpdate();
+        $this->core->renderJSONSuccess($update);
     }
 
     public function addToQueue(){
@@ -78,6 +88,7 @@ class APIController {
             $this->core->renderJSONError($data);
         }
         $connection = $user1->connectTo($user2);
+        $_SESSION['total_connection'] = $_SESSION['total_connection'] + 2;
         if($connection['status']){
             $this->core->renderJSONSuccess($connection['msg']);
         } else {

@@ -9,9 +9,11 @@ class User{
     private $username;
     private $profession;
 
+    private $last_update;
+
     // Should switch to connection model
     private $connections;
-    
+
     private $core;
     public function __construct(Core $core, $details=array()) {
         $this->core = $core;
@@ -20,6 +22,7 @@ class User{
         $this->profession = $details['profession'];        
         $this->username = $details['username'];
         $this->connections = explode(', ', $details['connections']) ?? array();
+        $this->last_update = date("Y-m-d H:i:s",time());
     }
 
     /**
@@ -38,6 +41,12 @@ class User{
         $this->connections[] = $user2;
         return $this->core->getDB()->connectTwo($this->core->getUser(), $user2);
     }
+
+    public function renewUpdate(){
+        $this->last_upddate = date("Y-m-d H:i:s",time());
+    }
+
+
 
     /**
      * Magic getter that gets private variables.
