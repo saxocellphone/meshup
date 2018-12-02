@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 23, 2018 at 08:54 PM
--- Server version: 10.1.37-MariaDB
--- PHP Version: 7.2.12
+-- Generation Time: Dec 02, 2018 at 10:14 PM
+-- Server version: 10.1.36-MariaDB
+-- PHP Version: 7.2.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -25,20 +25,29 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `adding_queue`
+--
+
+CREATE TABLE `adding_queue` (
+  `id` int(11) NOT NULL,
+  `connect_from` varchar(20) NOT NULL,
+  `connect_to` varchar(20) NOT NULL,
+  `time_stamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `viewed` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `connections`
 --
 
 CREATE TABLE `connections` (
+  `id` int(11) NOT NULL,
   `first_username` varchar(20) NOT NULL,
-  `second_username` varchar(20) NOT NULL
+  `second_username` varchar(20) NOT NULL,
+  `time_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `connections`
---
-
-INSERT INTO `connections` (`first_username`, `second_username`) VALUES
-('nazzav', 'anderb');
 
 -- --------------------------------------------------------
 
@@ -56,19 +65,20 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `first_name`, `last_name`, `profession`, `username`, `password`) VALUES
-(1, 'Victor', 'Nazzaro', 'Back-end engineer', 'nazzav', 'test'),
-(2, 'Brian', 'Anderson', 'Front-end engineer', 'anderb', 'test'),
-(3, 'Selia', 'Myers', 'Musician', 'myerss', 'test'),
-(4, 'Rylan', 'O\'Dog', 'Swagger', 'odogr', 'test'),
-(5, 'asdf', 'asdf', 'asdf', 'asdf', 'asdf');
-
---
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `adding_queue`
+--
+ALTER TABLE `adding_queue`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `connections`
+--
+ALTER TABLE `connections`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `users`
@@ -82,10 +92,22 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `adding_queue`
+--
+ALTER TABLE `adding_queue`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `connections`
+--
+ALTER TABLE `connections`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
