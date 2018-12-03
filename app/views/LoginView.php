@@ -55,10 +55,10 @@ class LoginView {
                         <form id="login" action="index.php?&component=login&page=check_login" method="post">
                             Username: <br>
                             <input type="text" name="username"> <br>
-                            password: <br>
+                            Password: <br>
                             <input type="text" name="password"> <br>
                             {$msg}
-                            <input type="submit">
+                            <input type="submit" value="Log In">
                         </form>
                     </span></section>
                 </div>  
@@ -75,8 +75,8 @@ class LoginView {
                         <input type="text" name="last_name"> <br>
                         Profession: <br>
                         <input type="text" name="profession"> <br>
-                        <input type="submit">
-                        <a href="index.php?&component=login">Login</a>
+                        <input type="submit" value= "Create Account"> <br>
+                        <a href="index.php?&component=login">I already have an account</a>
                     </form>
                     </span></section>
                 </div>
