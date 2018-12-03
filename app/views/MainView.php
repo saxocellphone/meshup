@@ -22,7 +22,7 @@ class MainView {
             <body>
 
                 <div class="icon-bar">
-                    <a class="active" href="#"><i class="fa fa-cogs"></i></a> 
+                    <a class="active" href="index.php?&component=main&page=user_setting"><i class="fa fa-cogs"></i></a> 
                     <a href="index.php?&component=login"><i class="fa fa-sign-out"></i></a>
                     <span id="welcome">Hello {$this->core->getUser()->first_name}!</span>
 
