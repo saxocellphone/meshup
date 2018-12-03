@@ -76,10 +76,12 @@ class Node {
 
     makeObjectDraggable(){
         const node = this.node_;
-        node.draggable().on('dragmove', (e) => {
+        node.on('mousedown', (e)=>{
             setTimeout(function(){
                 dragging_node = true;
-            }, 25);
+            }, 100);
+        });
+        node.draggable().on('dragmove', (e) => {
             // TODO: Make this more efficient
             const coord = node.attr('transform').split(',');
             this.cx_ = parseFloat(coord[coord.length-2]) + this.radius;
@@ -91,7 +93,9 @@ class Node {
             this.move();
         });
         node.draggable().on('dragend', (e) => {
-            dragging_node = false;
+            setTimeout(function(){
+                dragging_node = false;
+            }, 100);
         });
     }
 
