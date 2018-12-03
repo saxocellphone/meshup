@@ -9,26 +9,6 @@ class LoginView {
         $password_err = $msg['password_err'] ?? "";
         $return = "";
         $return .= <<<HTML
-        <!-- <link rel="stylesheet" href="css/login.css">
-        <div id="particles-js"></div>
-        <script src="vender/particles.js"></script>
-        <script src="js/login.js"></script>
-        <form id="login" action="index.php?&component=login&page=check_login" method="post">
-            Username: <br>
-            <input type="text" name="username"> <br>
-            Password: <br>
-            <input type="text" name="password"> <br> <br>
-            {$msg}
-            <input type="submit">
-            <a href="index.php?&component=login&page=new_account">Create new account</a>
-        </form>
-HTML;
-        return $return;
-    }
-}
-            <input type="submit">
-            <a href="index.php?&component=login&page=new_account">Create new account</a>
-        </form> -->
         <!DOCTYPE html>
         <html lang="en" >
 
@@ -94,3 +74,7 @@ HTML;
         </body>
 
         </html>
+HTML;
+        return $return;
+    }
+}
