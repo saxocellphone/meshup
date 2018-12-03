@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\library\Core;
 use app\views\MainView;
+use app\views\SettingView;
 
 class MainController {
     
@@ -25,6 +26,23 @@ class MainController {
         }
         $username = $_SESSION['username'];
         $this->core->loadUser($username);
+        switch($_REQUEST['page']){
+            case 'user_setting':
+                $this->showSettingView();
+                break;
+            default:
+                $this->showMainView();
+                break;
+        }
+    }
+
+    public function showSettingView(){
+        $this->view = new SettingView($this->core);
+        $this->core->renderOutput($this->view->showSettingView());
+    }
+
+    public function showMainView(){
+        $this->view = new MainView($this->core);
         if($this->core->getUser() != NULL){
             //TODO: Switch to getusers, and delete getUserJSON
             $users = $this->core->getDB()->getMeshupUsers();

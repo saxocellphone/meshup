@@ -32,6 +32,7 @@ class LoginController {
             break;
             case 'new_account':
             // This handles the new account page
+            // DEPRECATED!!!
                 $this->showNewAccountPage();
             break;
             case 'make_account':
