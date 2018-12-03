@@ -26,7 +26,7 @@ class SettingView {
 
             </head>
             <header>
-                <h1>anderb</h1>
+                <h1>{$this->core->getUser()->username}</h1>
                 <img src='https://avataaars.io/?avatarStyle=Circle&topType=ShortHairShortFlat&accessoriesType=Blank&hairColor=BrownDark&facialHairType=Blank&clotheType=Hoodie&clotheColor=Red&eyeType=EyeRoll&eyebrowType=UpDown&mouthType=Disbelief&skinColor=Pale'>
             </header>
             <body>
