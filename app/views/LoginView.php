@@ -15,11 +15,11 @@ class LoginView {
         <form id="login" action="index.php?&component=login&page=check_login" method="post">
             Username: <br>
             <input type="text" name="username"> <br>
-            password: <br>
-            <input type="text" name="password"> <br>
+            Password: <br>
+            <input type="text" name="password"> <br> <br>
             {$msg}
-            <input type="submit">
-            <a href="index.php?&component=login&page=new_account">Create new account</a>
+            <input type="submit" value="Log In">
+            <a href="index.php?&component=login&page=new_account"><br>Create new account</a>
         </form>
 HTML;
         return $return;

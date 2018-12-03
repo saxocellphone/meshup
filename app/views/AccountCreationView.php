@@ -24,9 +24,9 @@ class AccountCreationView {
             Last name: <br>
             <input type="text" name="last_name"> <br>
             Profession: <br>
-            <input type="text" name="profession"> <br>
-            <input type="submit">
-            <a href="index.php?&component=login">Login</a>
+            <input type="text" name="profession"> <br><br>
+            <input type="submit" value="Sign Up"> <br>
+            <a href="index.php?&component=login">I already have an account</a>
         </form>
 HTML;
         return $return;
