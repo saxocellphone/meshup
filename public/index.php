@@ -1,8 +1,12 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 
 /** Autoloading function */
 spl_autoload_register(function ($class_name) {
-    include '../' . str_replace("\\", "/", $class_name) . '.php';
+    include __DIR__ . '/../' . str_replace("\\", "/", $class_name) . '.php';
 });
 
 use app\library\Core;

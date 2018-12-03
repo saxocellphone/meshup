@@ -39,8 +39,9 @@ class Node {
         this.makeObjectDraggable();
         if(!this.is_self_node){
             node.click((e) => {
-                // Don't like this being a global variable.
-                window.selfnode.tryAddConnection(this);
+                if(!dragging_node){
+                    window.selfnode.tryAddConnection(this);
+                }
             });
         }
     }
@@ -76,6 +77,9 @@ class Node {
     makeObjectDraggable(){
         const node = this.node_;
         node.draggable().on('dragmove', (e) => {
+            setTimeout(function(){
+                dragging_node = true;
+            }, 25);
             // TODO: Make this more efficient
             const coord = node.attr('transform').split(',');
             this.cx_ = parseFloat(coord[coord.length-2]) + this.radius;
@@ -85,6 +89,9 @@ class Node {
             // this.cy_ = bbox.y+8;
             // console.log(this.cx_, this.cy_, testx, testy)
             this.move();
+        });
+        node.draggable().on('dragend', (e) => {
+            dragging_node = false;
         });
     }
 
