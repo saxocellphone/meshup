@@ -9,8 +9,6 @@ let stage = stageController.default('main', width, height, {id: "main_svg"});
 stageController.enableMove();
 // stageController.enableZoom();    
 
-
-
 let graph = new Graph();
 
 let meshup = new Meshup(self_username, graph);

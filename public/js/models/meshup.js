@@ -1,3 +1,8 @@
+/**
+ * This class is the core app of meshup. It connects to meshup's php API. It can fetch status, send requets, and live update.
+ */
+
+
 class meshup{
     constructor(username, graph){
         this.username_ = username;

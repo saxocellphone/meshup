@@ -3,6 +3,9 @@
 namespace app\views;
 
 class LoginView {
+    /**
+     * This view contains both the login form and the account creation form.
+     */
     public function showLoginPage($msg = array()) {
         $msg = $msg['msg'] ?? "";
         $username_err = $msg['username_err'] ?? "";

@@ -21,7 +21,7 @@ session_start();
 $_SESSION['logged_in'] = isset($_SESSION['logged_in']) ?? false;
 $core = new Core();
 
-$_SESSION['total_connection'] = $_SESSION['total_connection'] > 0 ? $_SESSION['total_connection'] : intval(0);
+$_SESSION['total_connection'] = isset($_SESSION['total_connection']) > 0 ? $_SESSION['total_connection'] : intval(0);
 
 $core->loadDatabase();
 

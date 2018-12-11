@@ -69,6 +69,9 @@ class APIController {
         $this->core->renderJSONSuccess($update);
     }
 
+    /**
+     * This will add a potential connection to the connection queue. 
+     */
     public function addToQueue(){
         $user1 = $this->core->getUser();
         $user2_username = $_POST['user_to_connect'] ?? NULL;
@@ -80,7 +83,9 @@ class APIController {
             $this->core->renderJSONError($try_adding['msg']);
         }
     }
-    
+    /**
+     * Will attempt to connect two nodes. Returns a JSON with appropriate message in both cases.
+     */
     private function tryConnect($user1, $user2){
         $data = [];
         if($user1 == NULL || $user2 == NULL){

@@ -29,7 +29,7 @@ class DatabaseQueries {
     public function connect(){
         $servername = "localhost";
         $username = "root";
-        $password = "horsecupmeatpump";
+        $password = "root";
         $db_name = "meshup";
 
         $conn = mysqli_connect($servername, $username, $password, $db_name);
@@ -53,8 +53,8 @@ class DatabaseQueries {
         return json_encode($rows);
     }
 
+    // See if user exist in database
     public function checkUserExist($username){
-        // Need to fix this to prevent sql injection
         $sql = "SELECT username FROM users WHERE username = '" . $username . "'";
         $result = $this->meshup_db->query($sql);
         return $result->num_rows > 0;
@@ -98,6 +98,9 @@ class DatabaseQueries {
         return $result->num_rows > 0 ? $result->fetch_assoc() : null;
     }
 
+    /**
+     * See if any new connection is made after user has logged in. This live-updates the connections
+     */
     public function getNewEdges(User $user){
         $time_updated = $user->last_update;
         $count = $this->numberConnections();
@@ -116,6 +119,9 @@ class DatabaseQueries {
         }
     }
 
+    /**
+     * Get the number of total connections
+     */
     public function numberConnections(){
         $sql = "SELECT COUNT(*) as count FROM `connections`";
         $count = intval($this->meshup_db->query($sql)->fetch_assoc()['count']);
@@ -225,6 +231,9 @@ class DatabaseQueries {
         }
     }
 
+    /**
+     * Returns an array of connection objects
+     */
     public function getMeshupEdge(){
         $sql = "SELECT * FROM connections";
         $result = $this->meshup_db->query($sql);
@@ -235,6 +244,9 @@ class DatabaseQueries {
         return $edges;
     }
 
+    /**
+     * Returns an array of user objects
+     */
     public function getMeshupUsers(){
         $sql = "SELECT users.*, GROUP_CONCAT(connections.second_username) as connections FROM users LEFT JOIN connections ON users.username = connections.first_username GROUP BY users.username";
         $result = $this->meshup_db->query($sql);

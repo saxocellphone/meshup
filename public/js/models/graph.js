@@ -1,3 +1,9 @@
+/**
+ * This class simply acts as a graph data structure. It allows to get properties of this graph. Currently it's 
+ * just for getting nodes, but can be expanded upon in the future.
+ */
+
+
 class Graph {
     constructor(){
         this.nodes_ = [];

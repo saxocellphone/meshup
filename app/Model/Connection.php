@@ -16,6 +16,9 @@ class Connection{
         $this->second_user = $details['second_username'];
     }
 
+    /**
+     * Magic getter for private properties
+     */
     public function __get($property) {
         if (property_exists($this, $property)) {
           return $this->$property;

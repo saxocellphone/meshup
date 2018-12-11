@@ -6,7 +6,9 @@ use app\library\Core;
 
 class SettingView {
     protected $core;
-
+    /**
+     * This view is the user setting's page. It is currently static.
+     */
     public function __construct(Core $core) {
         $this->core = $core;
     }

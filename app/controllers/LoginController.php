@@ -46,12 +46,14 @@ class LoginController {
     }
 
     public function showNewAccountPage(){
-        // TODO: Should move this to an authenticator class
-        // TODO: Should move view handling logic to an output class.
+        // This page is now deprecated since we moved the creation page to loginview.
         $this->view = new AccountCreationView;
         $this->core->renderOutput($this->view->showCreationPage());
     }
 
+    /**
+     * Current authentication system
+     */
     public function checkLogin(){
         // TODO: Should move this to an authenticator class
         if($this->logged_in){
@@ -88,7 +90,9 @@ class LoginController {
         }
         
     }
-
+    /**
+     * Current authentication system. 
+     */
     public function makeAccount(){
         $error_flag = false;
         $username_err = "";

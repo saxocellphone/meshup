@@ -42,6 +42,9 @@ class User{
         return $this->core->getDB()->connectTwo($this->core->getUser(), $user2);
     }
 
+    /**
+     * This helps to update undetected changes since last update
+     */
     public function renewUpdate(){
         $this->last_upddate = date("Y-m-d H:i:s",time());
     }

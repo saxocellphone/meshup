@@ -7,7 +7,9 @@ use app\library\Core;
 class MainView {
 
     protected $core;
-
+    /**
+     * Shows the main app
+     */
     public function __construct(Core $core) {
         $this->core = $core;
     }
@@ -20,7 +22,6 @@ class MainView {
             <meta name="viewport" content="width=device-width, initial-scale=1">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
             <body>
-
                 <div class="icon-bar">
                     <a class="active" href="index.php?&component=main&page=user_setting"><i class="fa fa-cogs"></i></a> 
                     <a href="index.php?&component=login"><i class="fa fa-sign-out"></i></a>

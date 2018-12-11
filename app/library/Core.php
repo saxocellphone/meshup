@@ -29,6 +29,9 @@ class Core {
         $this->output = json_encode($json);
     }
 
+    /**
+     * Return a json with status success
+     */
     public function renderJSONSuccess($json){
         $response = [
             'status' => 'success',
@@ -38,6 +41,9 @@ class Core {
         return $response;
     }
 
+    /**
+     * Return a json with status error
+     */
     public function renderJSONError($json){
         $response = [
             'status' => 'error',
@@ -47,6 +53,9 @@ class Core {
         return $response;
     }
 
+    /**
+     * Where the displaying is actually happening
+     */
     public function displayOutput(){
         echo($this->getOutput());
     }

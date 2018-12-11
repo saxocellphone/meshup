@@ -1,3 +1,8 @@
+/**
+ * This is the node class. It stores all the information for users. 
+ */
+
+
 import Connection from './connection.js';
 import {getRandomColor} from '../utils/utils.js';
 import '../../vender/jquery.js';
